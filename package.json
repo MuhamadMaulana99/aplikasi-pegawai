@@ -9,9 +9,12 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
     "next": "^15.1.7",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "sequelize": "^6.37.5"
+    "next-swagger-doc": "^0.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sequelize": "^6.37.5",
+    "swagger-ui-react": "^5.18.3",
+    "swr": "^2.3.2"
   },
   "name": "project-firda",
   "version": "1.0.0",
