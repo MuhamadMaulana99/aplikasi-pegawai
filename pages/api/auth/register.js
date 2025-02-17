@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     if (id_pegawai) {
       const existingPegawai = await Pegawai.findOne({
         where: { id_pegawai },
-        attributes: ["id_pegawai", "nama_lengkap", "id_divisi"], // Ubah dari `nama_pegawai` ke `nama_lengkap`
+        attributes: ["id_pegawai", "nama_lengkap"], // Ubah dari `nama_pegawai` ke `nama_lengkap`
       });
       if (!existingPegawai) {
         return errorResponse(

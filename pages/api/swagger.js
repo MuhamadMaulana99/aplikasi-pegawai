@@ -1122,7 +1122,7 @@ export default async function swaggerSpec(req, res) {
             },
           },
         },
-        "/user": {
+        "/users": {
           get: {
             summary: "Ambil data user",
             description: "Endpoint untuk mengambil data user.",
@@ -1157,7 +1157,7 @@ export default async function swaggerSpec(req, res) {
             },
           },
         },
-        "/user/{id}": {
+        "/users/{id}": {
           get: {
             summary: "Ambil data user berdasarkan ID",
             description: "Endpoint untuk mengambil data user berdasarkan ID.",
