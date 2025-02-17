@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Absensi = sequelize.define(
-    "tb_absensi",
+    "Absensi",
     {
       id_absensi: {
         type: DataTypes.INTEGER,
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
       },
       tanggal: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY, // Hanya menyimpan tanggal tanpa waktu
         allowNull: false,
       },
       jam_masuk: {
@@ -44,7 +44,13 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Absensi.associate = (models) => {
-    Absensi.belongsTo(models.Pegawai, { foreignKey: "id_pegawai" });
+    // 🔹 Setiap data absensi dimiliki oleh satu pegawai
+    Absensi.belongsTo(models.Pegawai, {
+      foreignKey: "id_pegawai",
+      as: "pegawai",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
   };
 
   return Absensi;

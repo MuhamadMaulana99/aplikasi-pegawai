@@ -1,11 +1,6 @@
-// import Pegawai from '@/models/pegawai';
-// import sequelize from '@/lib/db';
-
-import sequelize from "../../../lib/sequelize";
-import Pegawai from "../../../models/pegawai";
+import { Pegawai } from "../../../models";
 
 export default async function handler(req, res) {
-  await sequelize.sync();
   const { id } = req.query;
 
   switch (req.method) {

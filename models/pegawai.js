@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       id_jabatan: {
         type: DataTypes.INTEGER,
-        allowNull: true, // Boleh null agar sesuai dengan onDelete: SET NULL
+        allowNull: true,
         references: {
-          model: "Jabatan", // Gunakan nama model yang telah didefinisikan di models/Jabatan.js
+          model: "Jabatan",
           key: "id_jabatan",
         },
         onUpdate: "CASCADE",
@@ -58,10 +58,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM("Tetap", "Kontrak"),
         allowNull: false,
       },
-      id_divisi: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       tanggal_masuk: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -74,12 +70,12 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Pegawai.associate = (models) => {
-    Pegawai.belongsTo(models.Divisi, {
-      foreignKey: "id_divisi",
-      as: "divisi",
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE",
-    });
+    // Pegawai.belongsTo(models.Divisi, {
+    //   foreignKey: "id_divisi",
+    //   as: "divisi",
+    //   onDelete: "CASCADE",
+    //   onUpdate: "CASCADE",
+    // });
 
     Pegawai.belongsTo(models.Jabatan, {
       foreignKey: "id_jabatan",

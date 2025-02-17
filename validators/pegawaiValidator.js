@@ -53,10 +53,6 @@ const pegawaiSchema = Joi.object({
       "any.only": "Status kepegawaian harus 'Tetap' atau 'Kontrak'.",
       "any.required": "Status kepegawaian wajib diisi.",
     }),
-  id_divisi: Joi.number().integer().required().messages({
-    "number.base": "ID Divisi harus berupa angka.",
-    "any.required": "ID Divisi wajib diisi.",
-  }),
   id_jabatan: Joi.number().integer().required().messages({
     "number.base": "ID Jabatan harus berupa angka.",
     "any.required": "ID Jabatan wajib diisi.",

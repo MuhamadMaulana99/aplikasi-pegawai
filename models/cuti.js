@@ -48,8 +48,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Cuti.associate = (models) => {
-    Cuti.hasMany(models.Pegawai, {
+    Cuti.belongsTo(models.Pegawai, {
       foreignKey: "id_pegawai",
+      as: "pegawai",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     });
   };
 

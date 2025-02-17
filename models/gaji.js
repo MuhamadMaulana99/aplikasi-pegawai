@@ -49,10 +49,10 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Gaji.associate = (models) => {
-    Gaji.hasMany(models.Pegawai, {
+    Gaji.belongsTo(models.Pegawai, {
       foreignKey: "id_pegawai",
+      as: "pegawai", // Menambahkan alias untuk relasi ini
     });
   };
-
   return Gaji;
 };

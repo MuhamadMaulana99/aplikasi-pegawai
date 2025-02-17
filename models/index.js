@@ -6,7 +6,6 @@ const database = require("../lib/database");
 
 const User = require("./User")(database, DataTypes);
 const Pegawai = require("./pegawai")(database, DataTypes); 
-const Divisi = require("./divisi")(database, DataTypes); 
 const Absensi = require("./absensi")(database, DataTypes); 
 const Cuti = require("./cuti")(database, DataTypes); 
 const Gaji = require("./gaji")(database, DataTypes); 
@@ -17,7 +16,6 @@ const db = {
   Sequelize,
   User,
   Pegawai,
-  Divisi,
   Absensi,
   Cuti,
   Gaji,

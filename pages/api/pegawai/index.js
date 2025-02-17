@@ -1,14 +1,12 @@
-import { Divisi, Pegawai, Jabatan } from "../../../models";
+import { Pegawai, Jabatan } from "../../../models";
 import { validatePegawai } from "../../../validators/pegawaiValidator";
 
 export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
       try {
-        // Ambil semua pegawai beserta data divisi dan jabatan
         const pegawai = await Pegawai.findAll({
           include: [
-            { model: Divisi, as: "divisi" },
             { model: Jabatan, as: "jabatan" }
           ]
         });
@@ -29,7 +27,7 @@ export default async function handler(req, res) {
         }
 
         // Destructure nilai yang divalidasi
-        const { nip, email, id_divisi, id_jabatan } = value;
+        const { nip, email, id_jabatan } = value;
 
         // Cek apakah NIP sudah digunakan
         const existingNIP = await Pegawai.findOne({ where: { nip } });
@@ -41,12 +39,6 @@ export default async function handler(req, res) {
         const existingEmail = await Pegawai.findOne({ where: { email } });
         if (existingEmail) {
           return res.status(400).json({ message: "Email sudah terdaftar." });
-        }
-
-        // Cek apakah divisi ada
-        const existingDivisi = await Divisi.findByPk(id_divisi);
-        if (!existingDivisi) {
-          return res.status(400).json({ message: "Divisi tidak ditemukan." });
         }
 
         // Cek apakah jabatan ada (wajib diisi)

@@ -1,15 +1,77 @@
 import { errorResponse, successResponse } from "../../../utils/errorHandler";
-// import db from "../../../models";
 import { validateAbsensi } from "../../../validators/absensiValidator";
 import db from "../../../models";
 
 const { Absensi, Pegawai } = db;
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return errorResponse(res, "Metode tidak diizinkan", 405);
+  switch (req.method) {
+    case "GET":
+      return getAbsensi(req, res);
+    case "POST":
+      return postAbsensi(req, res);
+    default:
+      return errorResponse(res, "Metode tidak diizinkan", 405);
   }
+}
 
+// 🔹 GET: Ambil data absensi (semua atau berdasarkan ID pegawai)
+async function getAbsensi(req, res) {
+  try {
+    const { id_pegawai } = req.query;
+
+    let absensi;
+    if (id_pegawai) {
+      absensi = await Absensi.findAll({
+        where: { id_pegawai },
+        include: [
+          {
+            model: Pegawai,
+            as: "pegawai",
+            attributes: ["id_pegawai", "nama_lengkap"],
+          },
+        ],
+        order: [["tanggal", "DESC"]],
+      });
+
+      if (absensi.length === 0) {
+        return errorResponse(
+          res,
+          "Tidak ada data absensi untuk pegawai ini",
+          404
+        );
+      }
+    } else {
+      absensi = await Absensi.findAll({
+        include: [
+          {
+            model: Pegawai,
+            as: "pegawai",
+            attributes: ["id_pegawai", "nama_lengkap"],
+          },
+        ],
+        order: [["tanggal", "DESC"]],
+      });
+
+      if (absensi.length === 0) {
+        return errorResponse(res, "Tidak ada data absensi tersedia", 404);
+      }
+    }
+
+    return successResponse(res, "Data absensi berhasil diambil", absensi);
+  } catch (error) {
+    console.error("❌ Error saat mengambil data absensi:", error);
+    return errorResponse(
+      res,
+      "Terjadi kesalahan pada server",
+      500,
+      error.message
+    );
+  }
+}
+
+// 🔹 POST: Tambah data absensi
+async function postAbsensi(req, res) {
   try {
     // 🔹 Validasi input dengan Joi
     const { error, value } = validateAbsensi(req.body);

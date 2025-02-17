@@ -80,6 +80,9 @@ export default async function swaggerSpec(req, res) {
               200: {
                 description: "Berhasil mengambil data pegawai",
               },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
             },
           },
           post: {
@@ -93,21 +96,44 @@ export default async function swaggerSpec(req, res) {
                   schema: {
                     type: "object",
                     properties: {
-                      nip: { type: "string" },
-                      nama_lengkap: { type: "string" },
-                      tempat_lahir: { type: "string" },
-                      tanggal_lahir: { type: "string", format: "date" },
-                      jenis_kelamin: { type: "string", enum: ["L", "P"] },
-                      alamat: { type: "string" },
-                      no_telp: { type: "string" },
-                      email: { type: "string", format: "email" },
+                      nip: {
+                        type: "string",
+                      },
+                      nama_lengkap: {
+                        type: "string",
+                      },
+                      tempat_lahir: {
+                        type: "string",
+                      },
+                      tanggal_lahir: {
+                        type: "string",
+                        format: "date",
+                      },
+                      jenis_kelamin: {
+                        type: "string",
+                        enum: ["L", "P"],
+                      },
+                      alamat: {
+                        type: "string",
+                      },
+                      no_telp: {
+                        type: "string",
+                      },
+                      email: {
+                        type: "string",
+                        format: "email",
+                      },
                       status_kepegawaian: {
                         type: "string",
                         enum: ["Tetap", "Kontrak"],
                       },
-                      id_divisi: { type: "integer" },
-                      id_jabatan: { type: "integer" },
-                      tanggal_masuk: { type: "string", format: "date" },
+                      id_jabatan: {
+                        type: "integer",
+                      },
+                      tanggal_masuk: {
+                        type: "string",
+                        format: "date",
+                      },
                     },
                     required: [
                       "nip",
@@ -119,7 +145,6 @@ export default async function swaggerSpec(req, res) {
                       "no_telp",
                       "email",
                       "status_kepegawaian",
-                      "id_divisi",
                       "id_jabatan",
                       "tanggal_masuk",
                     ],
@@ -128,14 +153,201 @@ export default async function swaggerSpec(req, res) {
               },
             },
             responses: {
-              201: { description: "Pegawai berhasil ditambahkan." },
-              400: { description: "Validasi gagal." },
-              500: { description: "Terjadi kesalahan pada server." },
+              201: {
+                description: "Pegawai berhasil ditambahkan.",
+              },
+              400: {
+                description: "Validasi gagal.",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server.",
+              },
+            },
+          },
+        },
+        "/pegawai/{id}": {
+          get: {
+            summary: "Ambil data pegawai berdasarkan ID",
+            description:
+              "Endpoint untuk mengambil data pegawai berdasarkan ID.",
+            tags: ["Pegawai"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                description: "ID pegawai",
+                required: true,
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            responses: {
+              200: {
+                description: "Berhasil mengambil data pegawai",
+              },
+              404: {
+                description: "Pegawai tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+          put: {
+            summary: "Perbarui data pegawai",
+            description:
+              "Endpoint untuk memperbarui data pegawai berdasarkan ID.",
+            tags: ["Pegawai"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                description: "ID pegawai yang ingin diperbarui",
+                required: true,
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      nip: {
+                        type: "string",
+                      },
+                      nama_lengkap: {
+                        type: "string",
+                      },
+                      tempat_lahir: {
+                        type: "string",
+                      },
+                      tanggal_lahir: {
+                        type: "string",
+                        format: "date",
+                      },
+                      jenis_kelamin: {
+                        type: "string",
+                        enum: ["L", "P"],
+                      },
+                      alamat: {
+                        type: "string",
+                      },
+                      no_telp: {
+                        type: "string",
+                      },
+                      email: {
+                        type: "string",
+                        format: "email",
+                      },
+                      status_kepegawaian: {
+                        type: "string",
+                        enum: ["Tetap", "Kontrak"],
+                      },
+                      id_jabatan: {
+                        type: "integer",
+                      },
+                      tanggal_masuk: {
+                        type: "string",
+                        format: "date",
+                      },
+                    },
+                    required: [
+                      "nip",
+                      "nama_lengkap",
+                      "tempat_lahir",
+                      "tanggal_lahir",
+                      "jenis_kelamin",
+                      "alamat",
+                      "no_telp",
+                      "email",
+                      "status_kepegawaian",
+                      "id_jabatan",
+                      "tanggal_masuk",
+                    ],
+                  },
+                },
+              },
+            },
+            responses: {
+              200: {
+                description: "Pegawai berhasil diperbarui",
+              },
+              400: {
+                description: "Validasi gagal",
+              },
+              404: {
+                description: "Pegawai tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+          delete: {
+            summary: "Hapus data pegawai",
+            description:
+              "Endpoint untuk menghapus data pegawai berdasarkan ID.",
+            tags: ["Pegawai"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                description: "ID pegawai yang ingin dihapus",
+                required: true,
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            responses: {
+              200: {
+                description: "Pegawai berhasil dihapus",
+              },
+              404: {
+                description: "Pegawai tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
             },
           },
         },
 
         "/jabatan": {
+          get: {
+            summary: "Ambil semua data jabatan",
+            description:
+              "Endpoint untuk mengambil semua data jabatan yang ada.",
+            tags: ["Jabatan"],
+            responses: {
+              200: {
+                description: "Berhasil mengambil data jabatan",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id_jabatan: { type: "integer" },
+                          nama_jabatan: { type: "string" },
+                          gaji_pokok: { type: "number" },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
           post: {
             summary: "Tambah data jabatan",
             description: "Endpoint untuk menambahkan data jabatan baru.",
@@ -159,22 +371,18 @@ export default async function swaggerSpec(req, res) {
               201: {
                 description: "Jabatan berhasil ditambahkan",
               },
+              400: {
+                description: "Validasi gagal",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
             },
           },
-        },
-        "/divisi": {
-          get: {
-            summary: "Ambil data divisi",
-            description: "Endpoint untuk mengambil data divisi.",
-            tags: ["Divisi"],
-            responses: {
-              200: { description: "Data divisi berhasil diambil." },
-            },
-          },
-          post: {
-            summary: "Tambah divisi baru",
-            description: "Endpoint untuk menambahkan data divisi.",
-            tags: ["Divisi"],
+          put: {
+            summary: "Ubah data jabatan",
+            description: "Endpoint untuk mengubah data jabatan yang sudah ada.",
+            tags: ["Jabatan"],
             requestBody: {
               required: true,
               content: {
@@ -182,30 +390,97 @@ export default async function swaggerSpec(req, res) {
                   schema: {
                     type: "object",
                     properties: {
-                      nama_divisi: { type: "string" },
+                      nama_jabatan: { type: "string" },
+                      gaji_pokok: { type: "number" },
                     },
-                    required: ["nama_divisi"],
+                    required: ["nama_jabatan", "gaji_pokok"],
                   },
                 },
               },
             },
             responses: {
-              201: { description: "Divisi berhasil ditambahkan." },
+              200: {
+                description: "Jabatan berhasil diperbarui",
+              },
+              400: {
+                description: "Validasi gagal",
+              },
+              404: {
+                description: "Jabatan tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+          delete: {
+            summary: "Hapus data jabatan",
+            description:
+              "Endpoint untuk menghapus data jabatan yang sudah ada.",
+            tags: ["Jabatan"],
+            parameters: [
+              {
+                name: "id_jabatan",
+                in: "path",
+                required: true,
+                description: "ID jabatan yang akan dihapus",
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            responses: {
+              200: {
+                description: "Jabatan berhasil dihapus",
+              },
+              404: {
+                description: "Jabatan tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
             },
           },
         },
+
         "/absensi": {
           get: {
-            summary: "Ambil data absensi",
-            description: "Endpoint untuk mengambil data absensi.",
+            summary: "Ambil semua data absensi",
+            description: "Endpoint untuk mengambil semua data absensi.",
             tags: ["Absensi"],
             responses: {
-              200: { description: "Data absensi berhasil diambil." },
+              200: {
+                description: "Berhasil mengambil data absensi",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id_absensi: { type: "integer" },
+                          id_pegawai: { type: "integer" },
+                          tanggal: { type: "string", format: "date-time" },
+                          jam_masuk: { type: "string", format: "time" },
+                          jam_keluar: { type: "string", format: "time" },
+                          status: {
+                            type: "string",
+                            enum: ["Hadir", "Izin", "Sakit", "Alpha"],
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
             },
           },
           post: {
-            summary: "Catat absensi",
-            description: "Endpoint untuk mencatat absensi pegawai.",
+            summary: "Tambah data absensi baru",
+            description: "Endpoint untuk menambahkan data absensi.",
             tags: ["Absensi"],
             requestBody: {
               required: true,
@@ -216,20 +491,208 @@ export default async function swaggerSpec(req, res) {
                     properties: {
                       id_pegawai: { type: "integer" },
                       tanggal: { type: "string", format: "date" },
-                      jam_masuk: { type: "string", example: "08:00" },
-                      jam_keluar: { type: "string", example: "17:00" },
+                      jam_masuk: { type: "string", format: "time" },
+                      jam_keluar: { type: "string", format: "time" },
                       status: {
                         type: "string",
                         enum: ["Hadir", "Izin", "Sakit", "Alpha"],
                       },
                     },
-                    required: ["id_pegawai", "tanggal", "jam_masuk", "status"],
+                    required: ["id_pegawai", "tanggal", "status"],
                   },
                 },
               },
             },
             responses: {
-              201: { description: "Absensi berhasil dicatat." },
+              201: {
+                description: "Absensi berhasil ditambahkan",
+              },
+              400: {
+                description: "Validasi gagal",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+        },
+        "/absensi/{id_absensi}": {
+          get: {
+            summary: "Ambil data absensi berdasarkan ID",
+            description:
+              "Endpoint untuk mengambil data absensi berdasarkan ID.",
+            tags: ["Absensi"],
+            parameters: [
+              {
+                name: "id_absensi",
+                in: "path",
+                required: true,
+                description: "ID absensi yang ingin diambil",
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            responses: {
+              200: {
+                description: "Berhasil mengambil data absensi",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        id_absensi: { type: "integer" },
+                        id_pegawai: { type: "integer" },
+                        tanggal: { type: "string", format: "date-time" },
+                        jam_masuk: { type: "string", format: "time" },
+                        jam_keluar: { type: "string", format: "time" },
+                        status: {
+                          type: "string",
+                          enum: ["Hadir", "Izin", "Sakit", "Alpha"],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              404: {
+                description: "Absensi tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+          put: {
+            summary: "Edit data absensi",
+            description:
+              "Endpoint untuk memperbarui data absensi berdasarkan ID.",
+            tags: ["Absensi"],
+            parameters: [
+              {
+                name: "id_absensi",
+                in: "path",
+                required: true,
+                description: "ID absensi yang ingin diperbarui",
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      id_pegawai: { type: "integer" },
+                      tanggal: { type: "string", format: "date" },
+                      jam_masuk: { type: "string", format: "time" },
+                      jam_keluar: { type: "string", format: "time" },
+                      status: {
+                        type: "string",
+                        enum: ["Hadir", "Izin", "Sakit", "Alpha"],
+                      },
+                    },
+                    required: ["status"],
+                  },
+                },
+              },
+            },
+            responses: {
+              200: {
+                description: "Absensi berhasil diperbarui",
+              },
+              400: {
+                description: "Validasi gagal",
+              },
+              404: {
+                description: "Absensi tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+          delete: {
+            summary: "Hapus data absensi",
+            description:
+              "Endpoint untuk menghapus data absensi berdasarkan ID.",
+            tags: ["Absensi"],
+            parameters: [
+              {
+                name: "id_absensi",
+                in: "path",
+                required: true,
+                description: "ID absensi yang ingin dihapus",
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            responses: {
+              200: {
+                description: "Absensi berhasil dihapus",
+              },
+              404: {
+                description: "Absensi tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+          put: {
+            summary: "Edit data absensi",
+            description:
+              "Endpoint untuk memperbarui data absensi berdasarkan ID.",
+            tags: ["Absensi"],
+            parameters: [
+              {
+                name: "id_absensi",
+                in: "path",
+                required: true,
+                description: "ID absensi yang ingin diperbarui",
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      id_pegawai: { type: "integer" },
+                      tanggal: { type: "string", format: "date" },
+                      jam_masuk: { type: "string", format: "time" },
+                      jam_keluar: { type: "string", format: "time" },
+                      status: {
+                        type: "string",
+                        enum: ["Hadir", "Izin", "Sakit", "Alpha"],
+                      },
+                    },
+                    required: ["status"],
+                  },
+                },
+              },
+            },
+            responses: {
+              200: {
+                description: "Absensi berhasil diperbarui",
+              },
+              400: {
+                description: "Validasi gagal",
+              },
+              404: {
+                description: "Absensi tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
             },
           },
         },
@@ -239,7 +702,101 @@ export default async function swaggerSpec(req, res) {
             description: "Endpoint untuk mengambil data pengajuan cuti.",
             tags: ["Cuti"],
             responses: {
-              200: { description: "Data cuti berhasil diambil." },
+              200: {
+                description: "Data cuti berhasil diambil.",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id_pegawai: { type: "integer" },
+                          tanggal_mulai: { type: "string", format: "date" },
+                          tanggal_selesai: { type: "string", format: "date" },
+                          jenis_cuti: {
+                            type: "string",
+                            enum: ["Tahunan", "Sakit", "Melahirkan", "Lainnya"],
+                          },
+                          alasan: { type: "string" },
+                          status: {
+                            type: "string",
+                            enum: ["Disetujui", "Ditolak", "Menunggu"],
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          "/cuti": {
+            get: {
+              summary: "Ambil daftar cuti pegawai",
+              description:
+                "Endpoint untuk mengambil daftar cuti pegawai yang disertai dengan nama lengkap pegawai, diurutkan berdasarkan tanggal mulai.",
+              tags: ["Cuti"],
+              responses: {
+                200: {
+                  description: "Daftar cuti berhasil diambil",
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            id: { type: "integer", example: 1 },
+                            tanggal_mulai: {
+                              type: "string",
+                              format: "date",
+                              example: "2025-02-17",
+                            },
+                            tanggal_selesai: {
+                              type: "string",
+                              format: "date",
+                              example: "2025-02-19",
+                            },
+                            jenis_cuti: { type: "string", example: "Tahunan" },
+                            status: { type: "string", example: "Disetujui" },
+                            pegawai: {
+                              type: "object",
+                              properties: {
+                                nama_lengkap: {
+                                  type: "string",
+                                  example: "John Doe",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+                500: {
+                  description: "Terjadi kesalahan pada server",
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          status: { type: "string", example: "error" },
+                          message: {
+                            type: "string",
+                            example: "Terjadi kesalahan pada server",
+                          },
+                          error: {
+                            type: "string",
+                            example: "Database connection failed",
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
           post: {
@@ -274,7 +831,206 @@ export default async function swaggerSpec(req, res) {
               },
             },
             responses: {
-              201: { description: "Pengajuan cuti berhasil." },
+              201: {
+                description: "Pengajuan cuti berhasil.",
+              },
+              400: {
+                description: "Validasi gagal.",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server.",
+              },
+            },
+          },
+          delete: {
+            summary: "Hapus pengajuan cuti",
+            description:
+              "Endpoint untuk menghapus pengajuan cuti berdasarkan ID.",
+            tags: ["Cuti"],
+            parameters: [
+              {
+                name: "id_cuti",
+                in: "path",
+                required: true,
+                description: "ID pengajuan cuti yang ingin dihapus",
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            responses: {
+              200: {
+                description: "Pengajuan cuti berhasil dihapus",
+              },
+              404: {
+                description: "Pengajuan cuti tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+          put: {
+            summary: "Edit pengajuan cuti",
+            description:
+              "Endpoint untuk memperbarui data pengajuan cuti berdasarkan ID.",
+            tags: ["Cuti"],
+            parameters: [
+              {
+                name: "id_cuti",
+                in: "path",
+                required: true,
+                description: "ID pengajuan cuti yang ingin diperbarui",
+                schema: {
+                  type: "integer",
+                },
+              },
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      tanggal_mulai: { type: "string", format: "date" },
+                      tanggal_selesai: { type: "string", format: "date" },
+                      jenis_cuti: {
+                        type: "string",
+                        enum: ["Tahunan", "Sakit", "Melahirkan", "Lainnya"],
+                      },
+                      alasan: { type: "string" },
+                      status: {
+                        type: "string",
+                        enum: ["Disetujui", "Ditolak", "Menunggu"],
+                      },
+                    },
+                    required: ["status"],
+                  },
+                },
+              },
+            },
+            responses: {
+              200: {
+                description: "Pengajuan cuti berhasil diperbarui",
+              },
+              400: {
+                description: "Validasi gagal",
+              },
+              404: {
+                description: "Pengajuan cuti tidak ditemukan",
+              },
+              500: {
+                description: "Terjadi kesalahan pada server",
+              },
+            },
+          },
+        },
+        "/cuti/status": {
+          put: {
+            summary: "Perbarui status cuti",
+            description:
+              "Endpoint untuk memperbarui status pengajuan cuti pegawai.",
+            tags: ["Cuti"],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      id: { type: "integer", example: 1 },
+                      status: {
+                        type: "string",
+                        enum: ["Disetujui", "Ditolak"],
+                        example: "Disetujui",
+                      },
+                    },
+                    required: ["id", "status"],
+                  },
+                },
+              },
+            },
+            responses: {
+              200: {
+                description: "Status cuti berhasil diperbarui.",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        status: { type: "string", example: "success" },
+                        message: {
+                          type: "string",
+                          example: "Status cuti diperbarui",
+                        },
+                        data: {
+                          type: "object",
+                          properties: {
+                            id: { type: "integer", example: 1 },
+                            status: { type: "string", example: "Disetujui" },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              400: {
+                description: "Kesalahan validasi atau cuti tidak ditemukan.",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        status: { type: "string", example: "error" },
+                        message: {
+                          type: "string",
+                          example: "Pengajuan cuti tidak ditemukan",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              405: {
+                description: "Metode tidak diizinkan.",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        status: { type: "string", example: "error" },
+                        message: {
+                          type: "string",
+                          example: "Metode tidak diizinkan",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              500: {
+                description: "Terjadi kesalahan pada server.",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        status: { type: "string", example: "error" },
+                        message: {
+                          type: "string",
+                          example: "Terjadi kesalahan pada server",
+                        },
+                        error: {
+                          type: "string",
+                          example: "Database connection failed",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -313,6 +1069,59 @@ export default async function swaggerSpec(req, res) {
             },
           },
         },
+        "/gaji/{id}": {
+          put: {
+            summary: "Edit data gaji",
+            description:
+              "Endpoint untuk mengedit data gaji pegawai berdasarkan ID.",
+            tags: ["Gaji"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "integer" },
+              },
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      gaji_pokok: { type: "number" },
+                      tunjangan: { type: "number" },
+                      potongan: { type: "number" },
+                    },
+                  },
+                },
+              },
+            },
+            responses: {
+              200: { description: "Data gaji berhasil diperbarui." },
+              404: { description: "Data gaji tidak ditemukan." },
+            },
+          },
+          delete: {
+            summary: "Hapus data gaji",
+            description:
+              "Endpoint untuk menghapus data gaji pegawai berdasarkan ID.",
+            tags: ["Gaji"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "integer" },
+              },
+            ],
+            responses: {
+              200: { description: "Data gaji berhasil dihapus." },
+              404: { description: "Data gaji tidak ditemukan." },
+            },
+          },
+        },
         "/user": {
           get: {
             summary: "Ambil data user",
@@ -348,6 +1157,75 @@ export default async function swaggerSpec(req, res) {
             },
           },
         },
+        "/user/{id}": {
+          get: {
+            summary: "Ambil data user berdasarkan ID",
+            description: "Endpoint untuk mengambil data user berdasarkan ID.",
+            tags: ["User"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "integer" },
+              },
+            ],
+            responses: {
+              200: { description: "Data user berhasil diambil." },
+              404: { description: "User tidak ditemukan." },
+            },
+          },
+          put: {
+            summary: "Edit data user",
+            description: "Endpoint untuk mengedit data user berdasarkan ID.",
+            tags: ["User"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "integer" },
+              },
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      username: { type: "string" },
+                      password: { type: "string" },
+                      role: { type: "string", enum: ["Admin", "Pegawai"] },
+                      id_pegawai: { type: "integer" },
+                    },
+                  },
+                },
+              },
+            },
+            responses: {
+              200: { description: "Data user berhasil diperbarui." },
+              404: { description: "User tidak ditemukan." },
+            },
+          },
+          delete: {
+            summary: "Hapus data user",
+            description: "Endpoint untuk menghapus data user berdasarkan ID.",
+            tags: ["User"],
+            parameters: [
+              {
+                name: "id",
+                in: "path",
+                required: true,
+                schema: { type: "integer" },
+              },
+            ],
+            responses: {
+              200: { description: "User berhasil dihapus." },
+              404: { description: "User tidak ditemukan." },
+            },
+          },
+        },
       },
     },
     definitions: {
@@ -364,7 +1242,6 @@ export default async function swaggerSpec(req, res) {
           no_telp: { type: "string" },
           email: { type: "string" },
           status_kepegawaian: { type: "string" },
-          id_divisi: { type: "integer" },
           id_jabatan: { type: "integer" },
           tanggal_masuk: { type: "string", format: "date" },
         },
@@ -383,7 +1260,6 @@ export default async function swaggerSpec(req, res) {
       { name: "Authentication", description: "Endpoint otentikasi" },
       { name: "Pegawai", description: "Endpoint terkait pegawai" },
       { name: "Jabatan", description: "Endpoint terkait jabatan" },
-      { name: "Divisi", description: "Endpoint terkait divisi" },
       { name: "Absensi", description: "Endpoint terkait absensi" },
       { name: "Cuti", description: "Endpoint terkait cuti" },
       { name: "Gaji", description: "Endpoint terkait gaji" },
