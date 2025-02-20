@@ -49,6 +49,6 @@ export const errorResponse = (res, error, statusCode = 500) => {
   return res.status(statusCode).json({
     success: false,
     statusCode,
-    message: error.message || "Terjadi kesalahan pada server",
+    message: error || "Terjadi kesalahan pada server",
   });
 };

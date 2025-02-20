@@ -33,8 +33,24 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       status: {
-        type: DataTypes.ENUM("Hadir", "Izin", "Sakit", "Alpha"),
+        type: DataTypes.ENUM(
+          "Hadir",
+          "Izin",
+          "Sakit",
+          "Alpha",
+          "Telat",
+          "lembur"
+        ),
         allowNull: false,
+      },
+      is_tanggal_merah:{
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
+      jumlah_adon: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0, // Bisa diatur sesuai kebutuhan
       },
     },
     {

@@ -20,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      gaji_pokok: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
       tunjangan: {
         type: DataTypes.FLOAT,
         allowNull: true,

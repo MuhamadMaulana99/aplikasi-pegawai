@@ -84,7 +84,15 @@ async function postAbsensi(req, res) {
       );
     }
 
-    const { id_pegawai, tanggal, jam_masuk, jam_keluar, status } = value;
+    const {
+      id_pegawai,
+      tanggal,
+      jam_masuk,
+      jam_keluar,
+      status,
+      is_tanggal_merah,
+      jumlah_adon,
+    } = value;
 
     // 🔹 Cek apakah Pegawai ada di database
     const pegawai = await Pegawai.findOne({
@@ -119,6 +127,8 @@ async function postAbsensi(req, res) {
       jam_masuk,
       jam_keluar: jam_keluar || null,
       status,
+      is_tanggal_merah,
+      jumlah_adon,
     });
 
     return successResponse(res, "Absensi berhasil dicatat", newAbsensi, 201);

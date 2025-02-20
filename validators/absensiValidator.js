@@ -33,6 +33,15 @@ export const validateAbsensi = (data) => {
         "any.only": "Status harus salah satu dari: Hadir, Izin, Sakit, Alpha",
         "any.required": "Status wajib diisi",
       }),
+    is_tanggal_merah: Joi.boolean().required().messages({
+      "any.required": "is_tanggal_merah wajib diisi",
+    }),
+    jumlah_adon: Joi.number().integer().min(0).required().messages({
+      "number.base": "Jumlah Adon harus berupa angka",
+      "number.integer": "Jumlah Adon harus bilangan bulat",
+      "number.min": "Jumlah Adon tidak boleh negatif",
+      "any.required": "Jumlah Adon wajib diisi",
+    }),
   });
 
   return schema.validate(data, { abortEarly: false });
