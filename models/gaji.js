@@ -20,6 +20,16 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      id_absensi: { // 🔹 Tambahkan referensi ke Absensi
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "tb_absensi", // Referensi ke tabel absensi
+          key: "id_absensi",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE", // 🔥 Jika absensi dihapus, gaji juga dihapus
+      },
       tunjangan: {
         type: DataTypes.FLOAT,
         allowNull: true,
@@ -31,6 +41,14 @@ module.exports = (sequelize, DataTypes) => {
       total_gaji: {
         type: DataTypes.FLOAT,
         allowNull: false,
+      },
+      lembur: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      bonusAdon: { // Nama kolom yang baru
+        type: DataTypes.FLOAT,
+        allowNull: true,
       },
       tanggal_transfer: {
         type: DataTypes.DATE,

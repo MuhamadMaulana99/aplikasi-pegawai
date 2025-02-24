@@ -1,6 +1,7 @@
 import { errorResponse, successResponse } from "../../../utils/errorHandler";
 import { validateAbsensi } from "../../../validators/absensiValidator";
 import db from "../../../models";
+import { generateGaji } from "../../../utils/generateGaji";
 
 const { Absensi, Pegawai } = db;
 
@@ -130,6 +131,8 @@ async function postAbsensi(req, res) {
       is_tanggal_merah,
       jumlah_adon,
     });
+
+    await generateGaji(id_pegawai, value);
 
     return successResponse(res, "Absensi berhasil dicatat", newAbsensi, 201);
   } catch (error) {

@@ -27,10 +27,10 @@ export const validateAbsensi = (data) => {
         "string.pattern.base": "Jam keluar harus dalam format HH:mm",
       }),
     status: Joi.string()
-      .valid("Hadir", "Izin", "Sakit", "Alpha")
+      .valid("Hadir", "Izin", "Sakit", "Alpha", "Telat")
       .required()
       .messages({
-        "any.only": "Status harus salah satu dari: Hadir, Izin, Sakit, Alpha",
+        "any.only": "Status harus salah satu dari: Hadir, Izin, Sakit, Alpha, Telat",
         "any.required": "Status wajib diisi",
       }),
     is_tanggal_merah: Joi.boolean().required().messages({
