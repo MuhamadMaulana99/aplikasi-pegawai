@@ -87,6 +87,7 @@ async function postAbsensi(req, res) {
 
     const {
       id_pegawai,
+      id_absensi,
       tanggal,
       jam_masuk,
       jam_keluar,
@@ -132,7 +133,10 @@ async function postAbsensi(req, res) {
       jumlah_adon,
     });
 
-    await generateGaji(id_pegawai, value);
+    await generateGaji(id_pegawai, {
+      ...value,
+      id_absensi: newAbsensi.id_absensi,
+    });
 
     return successResponse(res, "Absensi berhasil dicatat", newAbsensi, 201);
   } catch (error) {

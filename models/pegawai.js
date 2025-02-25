@@ -70,17 +70,16 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Pegawai.associate = (models) => {
-    // Pegawai.belongsTo(models.Divisi, {
-    //   foreignKey: "id_divisi",
-    //   as: "divisi",
-    //   onDelete: "CASCADE",
-    //   onUpdate: "CASCADE",
-    // });
-
     Pegawai.belongsTo(models.Jabatan, {
       foreignKey: "id_jabatan",
       as: "jabatan",
       onDelete: "SET NULL",
+      onUpdate: "CASCADE",
+    });
+    Pegawai.hasMany(models.Absensi, {
+      foreignKey: "id_pegawai",
+      as: "absensi",
+      onDelete: "CASCADE",
       onUpdate: "CASCADE",
     });
   };

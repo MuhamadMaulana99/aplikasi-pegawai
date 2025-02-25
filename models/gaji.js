@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      id_absensi: { // 🔹 Tambahkan referensi ke Absensi
+      id_absensi: {
+        // 🔹 Tambahkan referensi ke Absensi
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -29,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE", // 🔥 Jika absensi dihapus, gaji juga dihapus
-      },
-      tunjangan: {
-        type: DataTypes.FLOAT,
-        allowNull: true,
       },
       potongan: {
         type: DataTypes.FLOAT,
@@ -46,7 +43,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: false,
       },
-      bonusAdon: { // Nama kolom yang baru
+      bonusAdon: {
+        // Nama kolom yang baru
         type: DataTypes.FLOAT,
         allowNull: true,
       },
@@ -65,7 +63,14 @@ module.exports = (sequelize, DataTypes) => {
   Gaji.associate = (models) => {
     Gaji.belongsTo(models.Pegawai, {
       foreignKey: "id_pegawai",
-      as: "pegawai", // Menambahkan alias untuk relasi ini
+      as: "pegawai",
+    });
+
+    Gaji.belongsTo(models.Absensi, {
+      foreignKey: "id_absensi",
+      as: "absensi",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     });
   };
   return Gaji;
