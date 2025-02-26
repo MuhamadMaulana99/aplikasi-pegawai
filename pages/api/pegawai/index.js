@@ -37,7 +37,7 @@ export default async function handler(req, res) {
             {
               model: Cuti,
               as: "cuti",
-              required: false, // Tidak memaksa pegawai harus memiliki cuti
+              required: false, 
               where: { status: "Disetujui" },
               separate: true,
               attributes: [
