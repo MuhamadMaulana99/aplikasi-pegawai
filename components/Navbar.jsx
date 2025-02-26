@@ -1,17 +1,13 @@
+"use client"; 
+import { useRouter } from "next/navigation"; // ✅ Benar di Next.js 13+
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import { getToken, logoutUser } from "../utils/api";
-import { useEffect, useState } from "react";
 
-export default function Navbar({ isOpen }) {
+export default function Navbar({ isOpen, setIsOpen }) {
   const router = useRouter();
   const token = getToken();
-  const [navbarWidth, setNavbarWidth] = useState("w-[calc(100%-4rem)]");
-
-  useEffect(() => {
-    setNavbarWidth(isOpen ? "w-[calc(100%-15rem)]" : "w-[calc(100%-4rem)]");
-  }, [isOpen]);
 
   const handleLogout = () => {
     logoutUser();
@@ -21,23 +17,25 @@ export default function Navbar({ isOpen }) {
   return (
     <AppBar
       position="static"
-      className={`bg-blue-600 shadow-md transition-all duration-300 ml-${isOpen ? "60" : "16"} ${navbarWidth}`}
+      className="bg-blue-600 shadow-md transition-all duration-300"
     >
-      <Toolbar className="flex justify-between">
-        <Typography variant="h6" className="font-bold">
-          My App
-        </Typography>
+      <Toolbar className="flex justify-between ">
+        <IconButton
+          className="cursor-pointer"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <MenuIcon className="text-white" />
+        </IconButton>
         <div>
-          <Link href="/" passHref>
-            <Button color="inherit">Home</Button>
-          </Link>
           {token ? (
             <Button color="inherit" onClick={handleLogout} className="ml-2">
               Logout
             </Button>
           ) : (
             <Link href="/login" passHref>
-              <Button color="inherit" className="ml-2">Login</Button>
+              <Button color="inherit" className="ml-2">
+                Login
+              </Button>
             </Link>
           )}
         </div>

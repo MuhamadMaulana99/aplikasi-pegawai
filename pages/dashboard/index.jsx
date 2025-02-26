@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import { logoutUser } from "../../utils/api";
 import Layout from "../../components/Layout";
 // import { logoutUser } from "../../utils/auth";
 
@@ -18,16 +17,7 @@ export default function Dashboard() {
     }
   }, []);
 
-  const handleLogout = () => {
-    logoutUser();
-    router.push("/login"); // Redirect ke login setelah logout
-  };
-
   if (loading) return <p>Checking authentication...</p>;
 
-  return (
-    <Layout>
-      <h1 className="text-3xl font-bold underline">Dashboard</h1>
-    </Layout>
-  );
+  return <h1 className="text-3xl font-bold underline">Dashboard</h1>;
 }
