@@ -1,5 +1,5 @@
+"use client"; 
 import { Drawer, IconButton, List, ListItem, ListItemText } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
@@ -19,7 +19,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               { text: "Dashboard", href: "/dashboard" },
               { text: "About", href: "/about" },
             ].map((item, index) => (
-              <ListItem button key={index} onClick={() => setIsOpen(false)}>
+              <ListItem key={index} onClick={() => setIsOpen(false)}>
                 <Link href={item.href} className="w-full">
                   <ListItemText primary={item.text} className="hover:text-gray-400" />
                 </Link>

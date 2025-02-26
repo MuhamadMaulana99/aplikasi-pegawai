@@ -1,4 +1,4 @@
-"use client"; // Tambahkan ini
+"use client"; 
 import "../styles/globals.css";
 
 import { useRouter } from "next/navigation";

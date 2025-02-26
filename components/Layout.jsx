@@ -1,11 +1,17 @@
 "use client"; 
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import { useHydrated } from "../src/context/HydrationContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Hindari hydration error
 
   return (
     <div className="flex">
