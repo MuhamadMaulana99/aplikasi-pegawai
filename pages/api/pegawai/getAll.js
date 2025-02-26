@@ -1,10 +1,14 @@
-import { Pegawai } from "../../../models";
+import { Jabatan, Pegawai } from "../../../models";
 
 export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
       try {
-        const pegawai = await Pegawai.findAll();
+        const pegawai = await Pegawai.findAll({
+          include: [
+            { model: Jabatan, as: "jabatan" },
+          ],
+        });
         return res.status(200).json(pegawai);
       } catch (error) {
         return res

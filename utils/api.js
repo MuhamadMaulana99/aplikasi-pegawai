@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-console.log(process.env.NEXT_PUBLIC_API_URL, 'process.env.NEXT_PUBLIC_API_URL')
+// console.log(process.env.NEXT_PUBLIC_API_URL, 'process.env.NEXT_PUBLIC_API_URL')
 
 
 export const registerUser = async (username, password) => {
