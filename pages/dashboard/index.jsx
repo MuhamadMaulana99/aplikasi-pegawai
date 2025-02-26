@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { logoutUser } from "../../utils/api";
+import Layout from "../../components/Layout";
 // import { logoutUser } from "../../utils/auth";
 
 export default function Dashboard() {
@@ -25,9 +26,8 @@ export default function Dashboard() {
   if (loading) return <p>Checking authentication...</p>;
 
   return (
-    <div>
-      <h1>Welcome to Dashboard</h1>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <Layout>
+      <h1 className="text-3xl font-bold underline">Dashboard</h1>
+    </Layout>
   );
 }

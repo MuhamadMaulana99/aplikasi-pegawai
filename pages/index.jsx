@@ -1,7 +1,8 @@
+import '../styles/globals.css';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getToken } from "../utils/api";
-import Navbar from "../components/Navbar";
+import Layout from "../components/Layout";
 
 export default function HomePage() {
   const router = useRouter();
@@ -17,10 +18,8 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      <h1>Selamat Datang di Dashboard</h1>
-      {token ? <p>Anda berhasil login!</p> : <p>Silakan login terlebih dahulu.</p>}
-    </div>
+    <Layout>
+      <h1 className="text-2xl font-bold">Home Page</h1>
+    </Layout>
   );
 }
