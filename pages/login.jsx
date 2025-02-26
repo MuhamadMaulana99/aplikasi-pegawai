@@ -12,7 +12,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await loginUser(username, password);
-      router.push("/");
+      router.push("/dashboard");
     } catch (err) {
       setError("Login gagal, cek username dan password");
     }
