@@ -3,12 +3,12 @@ import { validateAbsensi } from "../../../validators/absensiValidator";
 import db from "../../../models";
 import { generateGaji } from "../../../utils/generateGaji";
 
-const { Absensi, Pegawai } = db;
+const { Absensi, Pegawai, Gaji } = db;
 
 export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
-      return getAbsensi(req, res);
+      return getAllAbsensi(req, res);
     case "POST":
       return postAbsensi(req, res);
     default:
@@ -17,46 +17,21 @@ export default async function handler(req, res) {
 }
 
 // 🔹 GET: Ambil data absensi (semua atau berdasarkan ID pegawai)
-async function getAbsensi(req, res) {
+export async function getAllAbsensi(req, res) {
   try {
-    const { id_pegawai } = req.query;
+    const absensi = await Absensi.findAll({
+      include: [
+        {
+          model: Pegawai,
+          as: "pegawai",
+          attributes: ["id_pegawai", "nama_lengkap"],
+        },
+      ],
+      order: [["tanggal", "DESC"]],
+    });
 
-    let absensi;
-    if (id_pegawai) {
-      absensi = await Absensi.findAll({
-        where: { id_pegawai },
-        include: [
-          {
-            model: Pegawai,
-            as: "pegawai",
-            attributes: ["id_pegawai", "nama_lengkap"],
-          },
-        ],
-        order: [["tanggal", "DESC"]],
-      });
-
-      if (absensi.length === 0) {
-        return errorResponse(
-          res,
-          "Tidak ada data absensi untuk pegawai ini",
-          404
-        );
-      }
-    } else {
-      absensi = await Absensi.findAll({
-        include: [
-          {
-            model: Pegawai,
-            as: "pegawai",
-            attributes: ["id_pegawai", "nama_lengkap"],
-          },
-        ],
-        order: [["tanggal", "DESC"]],
-      });
-
-      if (absensi.length === 0) {
-        return errorResponse(res, "Tidak ada data absensi tersedia", 404);
-      }
+    if (absensi.length === 0) {
+      return errorResponse(res, "Tidak ada data absensi tersedia", 404);
     }
 
     return successResponse(res, "Data absensi berhasil diambil", absensi);

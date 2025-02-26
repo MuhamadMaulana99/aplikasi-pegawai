@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { id, status } = req.body;
+    const { id_cuti, status } = req.body;
 
     // 🔹 Validasi status
     if (!["Disetujui", "Ditolak"].includes(status)) {
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     }
 
     // 🔹 Cek apakah cuti ada
-    const cuti = await Cuti.findOne({ where: { id } });
+    const cuti = await Cuti.findOne({ where: { id_cuti } });
     if (!cuti) {
       return errorResponse(res, "Pengajuan cuti tidak ditemukan", 400);
     }

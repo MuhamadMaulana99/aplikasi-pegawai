@@ -82,6 +82,18 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     });
+    Pegawai.hasMany(models.Gaji, {
+      foreignKey: "id_pegawai",
+      as: "gaji",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+    Pegawai.hasMany(models.Cuti, {
+      foreignKey: "id_cuti",
+      as: "cuti",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
   };
 
   return Pegawai;

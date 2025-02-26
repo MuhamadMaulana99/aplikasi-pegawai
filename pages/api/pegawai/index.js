@@ -1,4 +1,5 @@
-import { Pegawai, Jabatan } from "../../../models";
+import { Op } from "sequelize";
+import { Pegawai, Jabatan, Absensi, Gaji, Cuti } from "../../../models";
 import { validatePegawai } from "../../../validators/pegawaiValidator";
 
 export default async function handler(req, res) {
@@ -7,12 +8,83 @@ export default async function handler(req, res) {
       try {
         const pegawai = await Pegawai.findAll({
           include: [
-            { model: Jabatan, as: "jabatan" }
-          ]
+            { model: Jabatan, as: "jabatan" },
+            {
+              model: Absensi,
+              as: "absensi",
+              required: true,
+              attributes: [
+                "id_absensi",
+                "tanggal",
+                "jam_masuk",
+                "jam_keluar",
+                "status",
+                "jumlah_adon",
+              ],
+            },
+            {
+              model: Gaji,
+              as: "gaji",
+              required: true,
+              attributes: [
+                "id_gaji",
+                "total_gaji",
+                "bonusAdon",
+                "lembur",
+                "potongan",
+              ],
+            },
+            {
+              model: Cuti,
+              as: "cuti",
+              required: false, // Tidak memaksa pegawai harus memiliki cuti
+              where: { status: "Disetujui" },
+              separate: true,
+              attributes: [
+                "id_cuti",
+                "tanggal_mulai",
+                "tanggal_selesai",
+                "jenis_cuti",
+                "alasan",
+                "status",
+                "keterangan",
+              ],
+            }
+          ],
         });
-        return res.status(200).json(pegawai);
+        const formatRupiah = (angka) =>
+          new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+          }).format(angka);
+
+        // Mapping pegawai dengan total gaji, lembur, bonus, dan potongan
+        const pegawaiWithTotals = pegawai.map((p) => {
+          const totalAllGaji = p.gaji.reduce((sum, g) => sum + g.total_gaji, 0);
+          const totalLembur = p.gaji.reduce((sum, g) => sum + g.lembur, 0);
+          const totalBonusAdon = p.gaji.reduce(
+            (sum, g) => sum + g.bonusAdon,
+            0
+          );
+          const totalPotongan = p.gaji.reduce((sum, g) => sum + g.potongan, 0);
+
+          return {
+            ...p.toJSON(),
+            totalAllGaji,
+            totalAllGajiFormatted: formatRupiah(totalAllGaji),
+            totalLembur,
+            totalLemburFormatted: formatRupiah(totalLembur),
+            totalBonusAdon,
+            totalBonusAdonFormatted: formatRupiah(totalBonusAdon),
+            totalPotongan,
+            totalPotonganFormatted: formatRupiah(totalPotongan),
+          };
+        });
+        return res.status(200).json(pegawaiWithTotals);
       } catch (error) {
-        return res.status(500).json({ message: "Terjadi kesalahan pada server", error });
+        return res
+          .status(500)
+          .json({ message: "Terjadi kesalahan pada server", error });
       }
 
     case "POST":
@@ -45,7 +117,9 @@ export default async function handler(req, res) {
         if (id_jabatan) {
           const existingJabatan = await Jabatan.findByPk(id_jabatan);
           if (!existingJabatan) {
-            return res.status(400).json({ message: "Jabatan tidak ditemukan." });
+            return res
+              .status(400)
+              .json({ message: "Jabatan tidak ditemukan." });
           }
         } else {
           return res.status(400).json({ message: "ID Jabatan wajib diisi." });
@@ -60,7 +134,9 @@ export default async function handler(req, res) {
         });
       } catch (error) {
         console.error("❌ Error saat menambahkan pegawai:", error);
-        return res.status(500).json({ message: "Terjadi kesalahan pada server", error });
+        return res
+          .status(500)
+          .json({ message: "Terjadi kesalahan pada server", error });
       }
 
     default:

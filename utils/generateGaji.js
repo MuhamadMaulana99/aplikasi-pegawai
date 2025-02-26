@@ -77,7 +77,7 @@ export async function generateGaji(id_pegawai, absensiTerbaru) {
       id_absensi,
       tanggal_transfer,
       gaji_pokok,
-      potongan: total_potongan,
+      potongan: potongan_telat,
       bonusAdon,
       total_gaji,
       lembur,

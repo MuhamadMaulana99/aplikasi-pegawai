@@ -22,13 +22,6 @@ export default async function handler(req, res) {
               model: Pegawai,
               as: "pegawai",
               attributes: ["id_pegawai", "nama_lengkap"],
-              include: [
-                {
-                  model: Absensi,
-                  as: "absensi", 
-                  attributes: ["id_absensi", "tanggal", "status"],
-                },
-              ],
             },
           ],
         });
