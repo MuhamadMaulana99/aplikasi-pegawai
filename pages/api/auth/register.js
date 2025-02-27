@@ -5,10 +5,43 @@ import db from "../../../models";
 const { User, Pegawai } = db; // Pastikan model Pegawai sudah di-import
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
+  if (req.method === "GET") {
+    return getAllUsers(req, res);
+  } else if (req.method === "POST") {
+    return registerUser(req, res);
+  } else {
     return errorResponse(res, "Metode tidak diizinkan", 405);
   }
+}
 
+// 🔹 Handler untuk mengambil semua user
+async function getAllUsers(req, res) {
+  try {
+    const users = await User.findAll({
+      include: [
+        {
+          model: Pegawai,
+          as: "pegawai", // Sesuaikan dengan alias di relasi Sequelize
+          attributes: ["id_pegawai", "nama_lengkap"], // Hanya ambil ID dan nama pegawai
+        },
+      ],
+      attributes: ["id_user", "username", "role"], // Pilih atribut yang akan ditampilkan
+    });
+
+    return successResponse(res, "Data user berhasil diambil", users);
+  } catch (error) {
+    console.error("❌ Error saat mengambil data user:", error);
+    return errorResponse(
+      res,
+      "Terjadi kesalahan pada server",
+      500,
+      error.message
+    );
+  }
+}
+
+// 🔹 Handler untuk mendaftarkan user baru
+async function registerUser(req, res) {
   try {
     const { id_pegawai, username, password, role } = req.body;
 
@@ -26,12 +59,11 @@ export default async function handler(req, res) {
       return errorResponse(res, "Username sudah digunakan", 400);
     }
 
-    // 🔹 Validasi apakah id_pegawai ada di tabel tb_pegawai
-    console.log(id_pegawai, 'id_pegawai')
+    // 🔹 Validasi apakah id_pegawai ada di tabel Pegawai
     if (id_pegawai) {
       const existingPegawai = await Pegawai.findOne({
         where: { id_pegawai },
-        attributes: ["id_pegawai", "nama_lengkap"], // Ubah dari `nama_pegawai` ke `nama_lengkap`
+        attributes: ["id_pegawai", "nama_lengkap"],
       });
       if (!existingPegawai) {
         return errorResponse(
@@ -47,7 +79,7 @@ export default async function handler(req, res) {
 
     // 🔹 Simpan user baru ke database
     const newUser = await User.create({
-      id_pegawai: id_pegawai || null, // Jika tidak ada, bisa diset null
+      id_pegawai: id_pegawai || null,
       username,
       password: hashedPassword,
       role,

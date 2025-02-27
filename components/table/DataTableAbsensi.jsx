@@ -53,24 +53,6 @@ const DataTableAbsensi = () => {
 
   const handleOpenDialog = (row = null) => {
     setSelectedRow(row);
-    const prevRow = {
-      id_pegawai: row?.id_pegawai,
-      tanggal: row?.id_pegawai,
-      jam_masuk: row?.id_pegawai,
-      jam_keluar: row?.id_pegawai,
-      status: row?.id_pegawai,
-      is_tanggal_merah: row?.id_pegawai,
-      jumlah_adon: row?.id_pegawai,
-    };
-    // setFormData({
-    //   ...row,
-    //   jam_masuk: row?.jam_masuk
-    //     ? dayjs(row.jam_masuk, "HH:mm:ss").format("HH:mm")
-    //     : "",
-    //   jam_keluar: row?.jam_keluar
-    //     ? dayjs(row.jam_keluar, "HH:mm:ss").format("HH:mm")
-    //     : "",
-    // });
 
     setFormData(
       row || {
