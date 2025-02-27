@@ -25,11 +25,21 @@ export const validateCuti = (data) => {
       .messages({
         "any.required": "Jenis cuti wajib diisi",
         "string.base": "Jenis cuti harus berupa teks",
-        "any.only": "Jenis cuti harus salah satu dari: Tahunan, Sakit, Melahirkan, atau Lainnya",
+        "any.only":
+          "Jenis cuti harus salah satu dari: Tahunan, Sakit, Melahirkan, atau Lainnya",
       }),
-    alasan: Joi.string().min(5).required().messages({
-      "any.required": "Alasan wajib diisi",
-      "string.min": "Alasan harus minimal 5 karakter",
+    status: Joi.string()
+      .valid("Diajukan", "Disetujui", "Ditolak")
+      .required()
+      .messages({
+        "any.required": "Jenis cuti wajib diisi",
+        "string.base": "Jenis cuti harus berupa teks",
+        "any.only":
+          "Jenis cuti harus salah satu dari: Tahunan, Sakit, Melahirkan, atau Lainnya",
+      }),
+    keterangan: Joi.string().min(5).required().messages({
+      "any.required": "keterangan wajib diisi",
+      "string.min": "keterangan harus minimal 5 karakter",
     }),
   });
 
