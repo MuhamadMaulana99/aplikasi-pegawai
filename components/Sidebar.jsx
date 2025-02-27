@@ -19,6 +19,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               { text: "Jabatan", href: "/jabatan" },
               { text: "Absensi", href: "/absensi" },
               { text: "Cuti", href: "/cuti" },
+              { text: "Gaji", href: "/gaji" },
               { text: "User", href: "/user" },
             ].map((item, index) => (
               <ListItem key={index} onClick={() => setIsOpen(false)}>
