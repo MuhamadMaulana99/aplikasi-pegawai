@@ -15,9 +15,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <div className="w-60 bg-gray-800 h-full text-white p-4">
           <List>
             {[
-              { text: "Home", href: "/home" },
-              { text: "Dashboard", href: "/dashboard" },
-              { text: "About", href: "/about" },
+              { text: "Pegawai", href: "/pegawai" },
+              { text: "Jabatan", href: "/jabatan" },
+              { text: "Absensi", href: "/absensi" },
             ].map((item, index) => (
               <ListItem key={index} onClick={() => setIsOpen(false)}>
                 <Link href={item.href} className="w-full">
